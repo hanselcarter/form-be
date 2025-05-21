@@ -1,0 +1,21 @@
+### Register a new user
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Login with user credentials
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Get user profile (protected route - requires JWT token)
+GET http://localhost:3000/auth/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJzdWIiOjEsImlhdCI6MTc0Nzg0MjcyOSwiZXhwIjoxNzQ3ODQ2MzI5fQ.jc5Yd6618WGjJ0EHRwPwtzviU2urY7tRqRhsKktItPk
