@@ -1,0 +1,54 @@
+### LOCAL ENVIRONMENT ###
+
+### Test basic root endpoint (Local)
+GET http://localhost:3000/
+
+### Register a new user (Local)
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Login with user credentials (Local)
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Get user profile (protected route - requires JWT token) (Local)
+GET http://localhost:3000/auth/profile
+Authorization: Bearer YOUR_JWT_TOKEN_HERE
+
+
+### PRODUCTION ENVIRONMENT ###
+
+### Test basic root endpoint (Production)
+GET https://htj12xr882.execute-api.us-east-2.amazonaws.com/prod/
+
+### Register a new user (Production)
+POST https://htj12xr882.execute-api.us-east-2.amazonaws.com/prod/auth/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Login with user credentials (Production)
+POST https://htj12xr882.execute-api.us-east-2.amazonaws.com/prod/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Get user profile (protected route - requires JWT token) (Production)
+GET https://htj12xr882.execute-api.us-east-2.amazonaws.com/prod/auth/profile
+Authorization: Bearer YOUR_JWT_TOKEN_HERE

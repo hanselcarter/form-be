@@ -4,8 +4,8 @@
   "main": "dist/lambda.js",
   "scripts": {
     "build": "tsc",
-    "start": "node dist/local.js",
-    "dev": "ts-node src/local.ts",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
     "deploy": "npm run build && aws lambda update-function-code --function-name express-lambda --zip-file fileb://dist.zip",
     "package": "npm run build && mkdir -p dist-lambda && cp -r dist node_modules package.json dist-lambda && cd dist-lambda && zip -r ../dist.zip ."
   },
@@ -17,11 +17,21 @@
     "@types/express": "^5.0.2",
     "@types/node": "^22.15.21",
     "@vendia/serverless-express": "^4.12.6",
+    "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.149",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/passport": "^1.0.17",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/passport-local": "^1.0.38",
     "ts-node": "^10.9.2"
   }
 }

@@ -2,6 +2,9 @@ import express from 'express';
 import type { Request, Response, NextFunction } from 'express';
 import serverlessExpress from '@vendia/serverless-express';
 
+// Import authentication routes
+import authRoutes from './routes/auth.routes';
+
 // Create Express app
 const app = express();
 
@@ -30,6 +33,9 @@ app.get('/health', (req: Request, res: Response) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// Register authentication routes
+app.use('/auth', authRoutes);
 
 // Root route
 app.get('/', (req: Request, res: Response) => {
