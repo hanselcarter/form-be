@@ -1,5 +1,8 @@
+### Test basic root endpoint
+GET https://gjimb49ey0.execute-api.us-east-2.amazonaws.com/prod/
+
 ### Register a new user
-POST http://localhost:3000/auth/register
+POST https://gjimb49ey0.execute-api.us-east-2.amazonaws.com/prod/auth/register
 Content-Type: application/json
 
 {
@@ -8,7 +11,7 @@ Content-Type: application/json
 }
 
 ### Login with user credentials
-POST http://localhost:3000/auth/login
+POST https://gjimb49ey0.execute-api.us-east-2.amazonaws.com/prod/auth/login
 Content-Type: application/json
 
 {
@@ -17,5 +20,5 @@ Content-Type: application/json
 }
 
 ### Get user profile (protected route - requires JWT token)
-GET http://localhost:3000/auth/profile
+GET https://gjimb49ey0.execute-api.us-east-2.amazonaws.com/prod/auth/profile
 Authorization: Bearer YOUR_JWT_TOKEN_HERE

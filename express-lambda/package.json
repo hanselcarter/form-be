@@ -1,0 +1,27 @@
+{
+  "name": "express-lambda",
+  "version": "1.0.0",
+  "main": "dist/lambda.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/local.js",
+    "dev": "ts-node src/local.ts",
+    "deploy": "npm run build && aws lambda update-function-code --function-name express-lambda --zip-file fileb://dist.zip",
+    "package": "npm run build && mkdir -p dist-lambda && cp -r dist node_modules package.json dist-lambda && cd dist-lambda && zip -r ../dist.zip ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Express.js application for AWS Lambda",
+  "dependencies": {
+    "@types/express": "^5.0.2",
+    "@types/node": "^22.15.21",
+    "@vendia/serverless-express": "^4.12.6",
+    "express": "^5.1.0",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.149",
+    "ts-node": "^10.9.2"
+  }
+}
