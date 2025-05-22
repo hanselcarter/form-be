@@ -2,6 +2,8 @@
 
 This Express.js application provides a complete JWT authentication system with user registration, login, and protected routes. It's designed to be deployed to AWS Lambda using the companion CDK infrastructure.
 
+**GitHub Repository:** [https://github.com/hanselcarter/form-be](https://github.com/hanselcarter/form-be)
+
 ## Features
 
 - User registration and login
@@ -67,6 +69,14 @@ npm run build
 
 This will compile the TypeScript code to JavaScript in the `dist` directory.
 
+## Connecting with Front-End Applications
+
+**Important:** When deploying this API to AWS Lambda, you'll receive a unique API Gateway URL. Any front-end applications that need to communicate with this API must be updated to use this new URL.
+
+If you're using a front-end deployed at a domain like `https://dhpbb0hg9mvh1.cloudfront.net`, you'll need to update the API base URL configuration in that application to point to your deployed API Gateway endpoint.
+
+The CORS configuration in this API allows requests from all origins, so you shouldn't encounter any cross-origin issues when connecting from your front-end application.
+
 ## Environment Variables
 
 - `JWT_SECRET` - Secret key for JWT authentication (default: "your-jwt-secret-key")
@@ -74,6 +84,13 @@ This will compile the TypeScript code to JavaScript in the `dist` directory.
 - `REFRESH_TOKEN_SECRET` - Secret key for refresh tokens (default: "your-refresh-token-secret-key")
 - `REFRESH_TOKEN_EXPIRATION` - Refresh token expiration time (default: "7d")
 - `PORT` - Port for local development (default: 3000)
+
+**Note:** This implementation uses hardcoded default values for simplicity. In a production environment, you should:
+
+1. Use AWS Secrets Manager or Parameter Store for sensitive values
+2. Set up proper environment variable handling with dotenv or similar tools
+3. Never commit secrets to your repository
+4. Consider using a configuration service for managing environment-specific settings
 
 ## Security Notes
 

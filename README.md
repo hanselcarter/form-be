@@ -2,6 +2,8 @@
 
 This project contains an Express.js API with JWT authentication that can be deployed to AWS Lambda using CDK. The application provides user registration, login, and protected routes with token refresh functionality.
 
+**GitHub Repository:** [https://github.com/hanselcarter/form-be](https://github.com/hanselcarter/form-be)
+
 ## Project Structure
 
 ```
@@ -108,6 +110,12 @@ npm run deploy
 After deployment completes, the CDK will output the API Gateway URL where your application is hosted. It will look something like:
 `https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/prod/`
 
+### Connecting with Front-End Applications
+
+**Important:** If you deploy this API yourself, you'll need to update any front-end applications to use your new API Gateway URL. Look for API configuration files in your front-end code and replace the existing API URL with your newly deployed endpoint.
+
+For example, if your front-end is deployed at `https://dhpbb0hg9mvh1.cloudfront.net`, you'll need to update the API base URL in that application to point to your new API Gateway URL.
+
 ### Testing the Deployed API
 
 The test-auth-local.http file includes endpoints for both local and production environments. Replace the production URL with your actual deployed API URL if needed.
@@ -129,7 +137,12 @@ The following environment variables can be configured:
 - `REFRESH_TOKEN_SECRET`: Secret key for refresh tokens (default: "your-refresh-token-secret-key")
 - `REFRESH_TOKEN_EXPIRATION`: Refresh token expiration time (default: "7d")
 
-In production, you should set these variables in the CDK stack to secure values.
+**Note:** For simplicity, this demo uses hardcoded default values. In a production environment, you should:
+
+1. Use AWS Secrets Manager or Parameter Store to securely store sensitive values
+2. Configure these variables in the CDK stack using secure methods
+3. Never hardcode secrets in your application code
+4. Use different secrets for different environments (dev, staging, production)
 
 ## Security Considerations
 
