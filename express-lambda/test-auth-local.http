@@ -25,6 +25,14 @@ Content-Type: application/json
 GET http://localhost:3000/auth/profile
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
 
+### Refresh access token (Local)
+POST http://localhost:3000/auth/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "YOUR_REFRESH_TOKEN_HERE"
+}
+
 
 ### PRODUCTION ENVIRONMENT ###
 
@@ -52,3 +60,11 @@ Content-Type: application/json
 ### Get user profile (protected route - requires JWT token) (Production)
 GET https://htj12xr882.execute-api.us-east-2.amazonaws.com/prod/auth/profile
 Authorization: Bearer YOUR_JWT_TOKEN_HERE
+
+### Refresh access token (Production)
+POST https://htj12xr882.execute-api.us-east-2.amazonaws.com/prod/auth/refresh
+Content-Type: application/json
+
+{
+  "refresh_token": "YOUR_REFRESH_TOKEN_HERE"
+}

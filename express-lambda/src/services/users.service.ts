@@ -1,5 +1,5 @@
-import bcrypt from 'bcryptjs';
-import { User } from '../models/user.model';
+import bcrypt from "bcryptjs";
+import { User } from "../models/user.model";
 
 class UsersService {
   private users: User[] = [];
@@ -10,6 +10,13 @@ class UsersService {
    */
   findByEmail(email: string): User | undefined {
     return this.users.find((user) => user.email === email);
+  }
+
+  /**
+   * Find a user by ID
+   */
+  findById(id: number): User | undefined {
+    return this.users.find((user) => user.id === id);
   }
 
   /**
@@ -38,7 +45,6 @@ class UsersService {
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = this.findByEmail(email);
 
-    // If user exists and password matches the hash
     if (user && (await bcrypt.compare(password, user.password))) {
       return user;
     }
@@ -47,5 +53,4 @@ class UsersService {
   }
 }
 
-// Export as singleton
 export const usersService = new UsersService();

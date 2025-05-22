@@ -66,4 +66,24 @@ router.get('/profile', jwtAuthMiddleware, (req: Request, res: Response) => {
   res.status(200).json(req.user);
 });
 
+/**
+ * Refresh access token using refresh token
+ * POST /auth/refresh
+ */
+router.post('/refresh', (req: Request, res: Response) => {
+  try {
+    const { refresh_token } = req.body;
+    
+    if (!refresh_token) {
+      res.status(400).json({ message: 'Refresh token is required' });
+      return;
+    }
+    
+    const result = authService.refreshToken(refresh_token);
+    res.status(200).json(result);
+  } catch (error: any) {
+    res.status(401).json({ message: error.message });
+  }
+});
+
 export default router;

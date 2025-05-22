@@ -1,74 +1,144 @@
-# Form Backend Application with AWS CDK Deployment
+# Express.js Backend with JWT Authentication on AWS Lambda
 
-This project contains a NestJS API with JWT authentication that can be deployed to AWS Lambda using CDK.
+This project contains an Express.js API with JWT authentication that can be deployed to AWS Lambda using CDK. The application provides user registration, login, and protected routes with token refresh functionality.
 
 ## Project Structure
 
 ```
-form-be/
-├── app/               ← NestJS application code
+bf-ridley/
+├── express-lambda/       ← Express.js application code
 │   ├── src/
+│   │   ├── models/       ← Data models
+│   │   ├── services/     ← Business logic
+│   │   ├── middleware/   ← Express middleware
+│   │   ├── routes/       ← API routes
+│   │   └── index.ts      ← Main application entry point
+│   ├── test-auth-local.http ← API test file
 │   ├── tsconfig.json
 │   ├── package.json
 │   └── ...
-└── infra/             ← CDK infrastructure code
+└── express-infra/        ← CDK infrastructure code
     ├── bin/
-    │   └── form-be.ts
+    │   └── express-infra.ts
     └── lib/
-        └── nest-stack.ts
+        └── express-stack.ts
 ```
+
+## Features
+
+- User registration and login with JWT authentication
+- Protected routes requiring valid JWT tokens
+- Token refresh mechanism for improved security
+- Serverless deployment to AWS Lambda
+- API Gateway integration
 
 ## Development
 
+### Prerequisites
+
+- Node.js 18.x or later
+- npm or yarn
+- AWS CLI configured with appropriate credentials
+- AWS CDK installed globally (`npm install -g aws-cdk`)
+
 ### Local Development
 
-To run the NestJS application locally:
+To run the Express.js application locally:
 
 ```bash
-cd app
+cd express-lambda
 npm install
-npm run start:dev
+npm run dev
 ```
 
 The application will be available at http://localhost:3000.
 
 ### Test the API
 
-Use the provided test-auth.http file with a REST client (like VS Code's REST Client extension) to test:
+Use the provided test-auth-local.http file with a REST client (like VS Code's REST Client extension) to test:
 
-- User registration
-- User login
-- Access to protected routes
+- User registration: `POST /auth/register`
+- User login: `POST /auth/login`
+- Access to protected routes: `GET /auth/profile`
+- Token refresh: `POST /auth/refresh`
 
-## Deployment
+## Deployment to AWS
 
-### Build and Deploy
+### Step 1: AWS Account Setup (First-time only)
 
-To deploy the application to AWS:
+If you've never used AWS CDK before, you need to bootstrap your AWS environment:
 
-1. Build the NestJS application:
+1. Install AWS CLI and configure it with your credentials:
    ```bash
-   cd app
-   npm install
-   npm run build
+   # Install AWS CLI (macOS example)
+   brew install awscli
+   
+   # Configure AWS credentials
+   aws configure
+   # Enter your AWS Access Key ID, Secret Access Key, region (e.g., us-east-1), and output format (json)
    ```
 
-2. Deploy using AWS CDK:
+2. Install AWS CDK globally:
    ```bash
-   cd ../infra
-   npm install
-   npm run bootstrap   # Only needed the first time in a new AWS account/region
-   npm run deploy
+   npm install -g aws-cdk
    ```
 
-### AWS Resources Created
+3. Bootstrap your AWS environment (only needed once per AWS account/region):
+   ```bash
+   cd express-infra
+   cdk bootstrap
+   ```
+
+### Step 2: Build the Express.js Application
+
+```bash
+cd express-lambda
+npm install
+npm run build
+```
+
+### Step 3: Deploy Using AWS CDK
+
+```bash
+cd ../express-infra
+npm install
+npm run deploy
+```
+
+After deployment completes, the CDK will output the API Gateway URL where your application is hosted. It will look something like:
+`https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/prod/`
+
+### Testing the Deployed API
+
+The test-auth-local.http file includes endpoints for both local and production environments. Replace the production URL with your actual deployed API URL if needed.
+
+## AWS Resources Created
 
 The CDK stack creates:
-- AWS Lambda function running the NestJS application
+- AWS Lambda function running the Express.js application
+- Lambda Layer for dependencies
 - API Gateway to expose the Lambda function
 - Appropriate IAM roles and policies
 
 ## Environment Variables
 
-- `JWT_SECRET`: Secret key for JWT authentication
-- `JWT_EXPIRATION_TIME`: JWT token expiration time (default: 1h)
+The following environment variables can be configured:
+
+- `JWT_SECRET`: Secret key for JWT authentication (default: "your-jwt-secret-key")
+- `JWT_EXPIRATION_TIME`: Access token expiration time (default: "1h")
+- `REFRESH_TOKEN_SECRET`: Secret key for refresh tokens (default: "your-refresh-token-secret-key")
+- `REFRESH_TOKEN_EXPIRATION`: Refresh token expiration time (default: "7d")
+
+In production, you should set these variables in the CDK stack to secure values.
+
+## Security Considerations
+
+- The current implementation uses in-memory storage for users and refresh tokens. In a production environment, you should use a database.
+- Always use HTTPS in production to protect tokens in transit.
+- Consider implementing token revocation for enhanced security.
+
+## Troubleshooting
+
+- **Deployment Timeout**: If deployment times out while pulling the AWS SAM build image, modify the CDK stack to use local bundling instead.
+- **CORS Issues**: If you're calling the API from a browser, ensure the client origin is allowed in the CORS configuration.
+- **JWT Errors**: Verify that the JWT_SECRET environment variable is correctly set in both environments.
